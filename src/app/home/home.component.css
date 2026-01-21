@@ -1,0 +1,63 @@
+.home-container {
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #0f172a, #1e293b);
+  font-family: Arial, sans-serif;
+}
+
+.card {
+  background: white;
+  padding: 40px 60px;
+  border-radius: 20px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+  text-align: center;
+}
+
+h1 {
+  margin: 0;
+  font-size: 36px;
+  color: #111827;
+}
+
+.subtitle {
+  margin-top: 10px;
+  margin-bottom: 30px;
+  font-size: 18px;
+  color: #6b7280;
+}
+
+.button-row {
+  display: flex;
+  gap: 30px;
+  justify-content: center;
+}
+
+.party-btn {
+  padding: 16px 40px;
+  font-size: 20px;
+  border: none;
+  border-radius: 12px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: transform .15s ease, box-shadow .15s ease;
+}
+
+.party-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.25);
+}
+
+/* BJP Button */
+.party-btn.bjp {
+  background: #ff7a00;
+  color: white;
+}
+
+/* TDP Button */
+.party-btn.tdp {
+  background: #ffd700;
+  color: #3b3b00;
+}

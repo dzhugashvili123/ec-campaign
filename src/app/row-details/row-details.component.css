@@ -1,0 +1,125 @@
+/* Party-theme background stays outside */
+:host {
+  display: block;
+  width: 100%;
+  background: transparent;
+}
+
+/* White card container */
+.row-form-wrapper {
+  max-width: 1200px;
+  margin: 24px auto;
+  padding: 28px;
+  border-radius: 12px;
+  background: #ffffff;
+  box-shadow: 0 6px 18px rgba(0,0,0,.1);
+}
+
+/* Title stays visible */
+.row-form-wrapper h2,
+.form-title {
+  margin-top: 0;
+  margin-bottom: 16px;
+  font-size: 22px;
+  font-weight: 600;
+  color: #202020;
+}
+
+/* Table layout */
+.table-responsive {
+  width: 100%;
+}
+
+table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 16px 10px;
+}
+
+td {
+  vertical-align: top;
+}
+
+/* Inputs */
+input,
+select {
+  width: 100%;
+  height: 36px;
+  padding: 8px 10px;
+  border-radius: 6px;
+  border: 1px solid #cfcfcf;
+  font-size: 14px;
+}
+
+input:focus,
+select:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+/* Radio buttons */
+.radio-group {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin-top: 6px;
+}
+
+.radio-option {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+}
+
+.radio-option input[type="radio"] {
+  width: auto;
+  margin: 0;
+}
+
+/* Buttons */
+.button-group {
+  display: flex;
+  gap: 14px;
+  margin-top: 18px;
+}
+
+button {
+  flex: 1;
+  min-width: 140px;
+  padding: 10px;
+  border-radius: 6px;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* Save */
+.btn-submit {
+  background: #28a745;
+  color: #fff;
+}
+.btn-submit:hover {
+  background: #218838;
+}
+
+/* Cancel */
+.btn-cancel {
+  background: #6c757d;
+  color: #fff;
+}
+.btn-cancel:hover {
+  background: #5a6268;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  table td {
+    display: block;
+    width: 100%;
+  }
+
+  .button-group {
+    flex-direction: column;
+  }
+}

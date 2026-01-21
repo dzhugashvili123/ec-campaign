@@ -1,0 +1,199 @@
+<header>
+    <img [src]="assetPath + '/logo.png'" class="logo">
+
+    <div class="btn-group">
+
+        <!-- EC Campaign -->
+        <button *ngIf="isLoggedIn" class="btn btn-pill" (click)="navigateToUpload()"
+            [ngStyle]="{ 'background-color': party.theme.color, 'color': party.theme.text }">
+            EC CAMPAIGN
+        </button>
+
+        <!-- JOIN button -->
+        <button class="btn btn-pill" (click)="openLink(party.theme.joinUrl)"
+            [ngStyle]="{ 'background-color': party.theme.color, 'color': party.theme.text }">
+            {{ party.theme.joinLabel }}
+        </button>
+
+        <!-- DONATION button -->
+        <button class="btn btn-pill" (click)="openLink(party.theme.donateUrl)"
+            [ngStyle]="{ 'background-color': party.theme.color, 'color': party.theme.text }">
+            MAKE A DONATION
+        </button>
+
+        <button *ngIf="!isLoggedIn" class="login-btn" (click)="login()"
+            [ngStyle]="{ 'background-color': party.theme.color, 'color': party.theme.text}">
+            <span class="btn-icon">
+                <i class="bi bi-box-arrow-in-right"></i>
+            </span>
+            <span class="btn-text">
+                Login
+            </span>
+        </button>
+
+        <button *ngIf="isLoggedIn" class="logout-btn" (click)="logout()"
+            [ngStyle]="{'background-color': party.theme.color, 'color': party.theme.text}">
+            <span class="btn-icon">
+                <i class="bi bi-box-arrow-left"></i>
+            </span>
+            <span class="btn-text">
+                Logout
+            </span>
+        </button>
+    </div>
+
+</header>
+
+<div class="carousel">
+    <div class="carousel" (mouseenter)="pauseAutoSlide()" (mouseleave)="resumeAutoSlide()">
+
+        <div class="slides" [style.transform]="'translateX(-' + currentSlide * 100 + '%)'"
+            (mousedown)="startDrag($event)" (mousemove)="onDrag($event)" (mouseup)="endDrag()" (mouseleave)="endDrag()"
+            (touchstart)="startDrag($event)" (touchmove)="onDrag($event)" (touchend)="endDrag()">
+
+            <img [src]="assetPath + '/Img1.jpg'" alt="Slide 1">
+            <img [src]="assetPath + '/Img2.jpg'" alt="Slide 2">
+            <img [src]="assetPath + '/Img3.jpg'" alt="Slide 3">
+            <img [src]="assetPath + '/Img4.jpg'" alt="Slide 4">
+        </div>
+    </div>
+
+    <!-- LOGIN OVERLAY -->
+    <div class="overlay-content" *ngIf="currentView === 'login'">
+        <div class="upload-card">
+            <h2>Login</h2>
+
+            <form (ngSubmit)="handleLogin()">
+                <div class="mb-3">
+                    <label class="form-label">Username / Email</label>
+                    <input type="text" [(ngModel)]="username" name="username" class="form-control" required>
+                </div>
+
+                <div class="mb-3 position-relative">
+                    <label class="form-label">Password</label>
+                    <input [type]="showPassword ? 'text' : 'password'" [(ngModel)]="password" name="password"
+                        class="form-control" required>
+
+                    <i class="bi" [ngClass]="showPassword ? 'bi-eye-slash' : 'bi-eye'" (click)="togglePassword()"
+                        style="position:absolute; top:38px; right:10px; cursor:pointer;">
+                    </i>
+                </div>
+
+                <div *ngIf="loginError" class="text-danger">{{ loginError }}</div>
+
+                <div class="button-group">
+                    <button type="button" class="btn-cancel" (click)="resetToHome()">
+                        Cancel
+                    </button>
+
+                    <button type="submit" class="btn-submit">
+                        Login
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- DROPDOWN OVERLAY -->
+    <div class="overlay-content" *ngIf="currentView === 'dropdown'">
+        <div class="upload-card">
+            <h2>Select List</h2>
+
+            <form (ngSubmit)="handleListSelection()">
+                <select class="form-control" [(ngModel)]="selectedList" name="selectedList" required>
+                    <option value="" disabled>Select one</option>
+                    <option value="Demo List">Demo List</option>
+                </select>
+
+                <div *ngIf="selectionError" class="text-danger">{{ selectionError }}</div>
+
+                <div class="button-group">
+                    <button type="button" class="btn-cancel" (click)="resetToHome()">
+                        Cancel
+                    </button>
+
+                    <button type="submit" class="btn-submit">
+                        Submit
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- TABLE OVERLAY -->
+    <div class="overlay-content" *ngIf="currentView === 'table'">
+        <div class="upload-card">
+            <h2>Selected List</h2>
+
+            <form (ngSubmit)="submitSelectedRows()">
+                <div style="max-height:400px; overflow-y:auto;">
+                    <table border="1" width="100%">
+                        <thead>
+                            <tr>
+                                <th><input type="checkbox" (change)="toggleSelectAll($event)"></th>
+                                <th>First Name</th>
+                                <th>Mobile</th>
+                                <th>Email</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let row of csvData; let i = index">
+                                <td>
+                                    <input type="checkbox" [(ngModel)]="row.selected" name="selected{{i}}">
+                                </td>
+                                <td>{{ row.firstName }}</td>
+                                <td>{{ row.MobileNo }}</td>
+                                <td>{{ row.email }}</td>
+                                <td>
+                                    <button type="button" class="btn details-btn" (click)="openDetails(row)" [ngStyle]="{ 'background-color': party.theme.color, 'color': party.theme.text}">
+                                        Details
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="button-group">
+                    <button type="button" class="btn-cancel" (click)="resetToHomepage()">
+                        Cancel
+                    </button>
+
+                    <button type="submit" class="btn-submit"
+                        [ngStyle]="{ 'background-color': party.theme.color, 'color': party.theme.text }">
+                        Run Campaign
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- UPLOAD OVERLAY -->
+    <div class="overlay-content" *ngIf="currentView === 'upload'">
+        <div class="upload-card">
+            <h2>Upload Campaign File</h2>
+
+            <input type="file" accept=".csv" (change)="handleFileChange($event)">
+
+            <div class="button-group">
+                <button type="button" class="btn" (click)="handleApiCall()"
+                    [ngStyle]="{ 'background-color': party.theme.color, 'color': party.theme.text }">
+                    Run Campaign
+                </button>
+
+                <button type="button" class="btn" (click)="openFileListScreen()"
+                    [ngStyle]="{ 'background-color': party.theme.color, 'color': party.theme.text }">
+                    Select File List
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- NAVIGATION DOTS -->
+    <div class="navigation">
+        <span class="bar" *ngFor="let s of [0,1,2,3]; let i = index" [class.active]="currentSlide === i"
+            (click)="goToSlide(i)">
+        </span>
+    </div>
+</div>
