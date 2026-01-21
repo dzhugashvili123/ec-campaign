@@ -9,17 +9,19 @@
             EC CAMPAIGN
         </button>
 
-        <!-- JOIN button -->
-        <button class="btn btn-pill" (click)="openLink(party.theme.joinUrl)"
-            [ngStyle]="{ 'background-color': party.theme.color, 'color': party.theme.text }">
-            {{ party.theme.joinLabel }}
-        </button>
+        <ng-container *ngIf="party.current !== 'adv'">
+            <!-- JOIN button -->
+            <button class="btn btn-pill" (click)="openLink(party.theme.joinUrl)"
+                [ngStyle]="{ 'background-color': party.theme.color, 'color': party.theme.text }">
+                {{ party.theme.joinLabel }}
+            </button>
 
-        <!-- DONATION button -->
-        <button class="btn btn-pill" (click)="openLink(party.theme.donateUrl)"
-            [ngStyle]="{ 'background-color': party.theme.color, 'color': party.theme.text }">
-            MAKE A DONATION
-        </button>
+            <!-- DONATION button -->
+            <button class="btn btn-pill" (click)="openLink(party.theme.donateUrl)"
+                [ngStyle]="{ 'background-color': party.theme.color, 'color': party.theme.text }">
+                MAKE A DONATION
+            </button>
+        </ng-container>
 
         <button *ngIf="!isLoggedIn" class="login-btn" (click)="login()"
             [ngStyle]="{ 'background-color': party.theme.color, 'color': party.theme.text}">
@@ -146,7 +148,8 @@
                                 <td>{{ row.MobileNo }}</td>
                                 <td>{{ row.email }}</td>
                                 <td>
-                                    <button type="button" class="btn details-btn" (click)="openDetails(row)" [ngStyle]="{ 'background-color': party.theme.color, 'color': party.theme.text}">
+                                    <button type="button" class="btn details-btn" (click)="openDetails(row)"
+                                        [ngStyle]="{ 'background-color': party.theme.color, 'color': party.theme.text}">
                                         Details
                                     </button>
                                 </td>
@@ -174,7 +177,7 @@
         <div class="upload-card">
             <h2>Upload Campaign File</h2>
 
-            <input type="file" accept=".csv" (change)="handleFileChange($event)">
+            <input type="file" accept=".csv,.xlsx,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" (change)="handleFileChange($event)">
 
             <div class="button-group">
                 <button type="button" class="btn" (click)="handleApiCall()"
@@ -182,18 +185,22 @@
                     Run Campaign
                 </button>
 
-                <button type="button" class="btn" (click)="openFileListScreen()"
-                    [ngStyle]="{ 'background-color': party.theme.color, 'color': party.theme.text }">
-                    Select File List
-                </button>
+                <!-- <ng-container *ngIf="party.current !== 'adv'"> -->
+                    <button type="button" class="btn" (click)="openFileListScreen()"
+                        [ngStyle]="{ 'background-color': party.theme.color, 'color': party.theme.text }">
+                        Select File List
+                    </button>
+                <!-- </ng-container> -->
             </div>
         </div>
     </div>
 
     <!-- NAVIGATION DOTS -->
-    <div class="navigation">
-        <span class="bar" *ngFor="let s of [0,1,2,3]; let i = index" [class.active]="currentSlide === i"
-            (click)="goToSlide(i)">
-        </span>
-    </div>
+    <ng-container *ngIf="party.current !== 'adv'">
+        <div class="navigation">
+            <span class="bar" *ngFor="let s of [0,1,2,3]; let i = index" [class.active]="currentSlide === i"
+                (click)="goToSlide(i)">
+            </span>
+        </div>
+    </ng-container>
 </div>

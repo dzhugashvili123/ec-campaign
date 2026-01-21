@@ -4,8 +4,8 @@
 
 export const environment = {
   production: false, 
-  // apiUrl: 'https://quickcomsdemoapi.tecra.com'
-   apiUrl:"http://localhost:6200"
+  apiUrl: 'https://quickcomsdemoapi.tecra.com'
+  //  apiUrl:"http://localhost:6200"
 };
 
 /*

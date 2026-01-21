@@ -45,6 +45,10 @@ export class EcCampaignService {
 		return this.http.get(this.baseUrl + '/get-select-campaign-users-tdp');
 	}
 
+	getAdvSelectCampaigns(): Observable<any> {
+		return this.http.get(this.baseUrl + '/get-select-campaign-users-adv');
+	}
+
 	// updateCampaignUser(payload: any) {
 	// 	return this.http.post(
 	// 		this.baseUrl + '/update-campaign-user',

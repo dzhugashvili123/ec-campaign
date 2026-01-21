@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 @Injectable({ providedIn: 'root' })
 export class PartyService {
 
-  current: 'bjp' | 'tdp' = 'bjp';
+  current: 'bjp' | 'tdp' | 'adv' = 'bjp';
 
   themes = {
     bjp: {
@@ -20,6 +20,13 @@ export class PartyService {
       joinUrl: 'https://telugudesam.org/membership-2024-26/',
       donateUrl: 'https://tdpforandhra.com/',
       joinLabel: 'JOIN TDP'
+    },
+    adv: {
+      color: '#F07965',
+      text: '#000000',
+      joinUrl: "",
+      donateUrl: "",
+      joinLabel: 'VOTE FOR ME'
     }
   };
 
@@ -28,7 +35,7 @@ export class PartyService {
   setFromUrl(url: string) {
     const p = url.split('/')[1];
 
-    if (p === 'bjp' || p === 'tdp') {
+    if (p === 'bjp' || p === 'tdp' || p === 'adv') {
       this.current = p;
     } else {
       this.current = 'tdp';

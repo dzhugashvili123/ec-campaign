@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { PartyService } from '../party.service';
 
+
 @Component({
   selector: 'app-ec-campaign-app',
   templateUrl: './ec-campaign.component.html',
@@ -258,7 +259,20 @@ export class EcCampaignAppComponent implements OnInit {
         error: (err) => this.toastr.error('Error fetching campaigns:', err)
       });
     }
-
+    else if (this.party.current === 'adv') {
+      this.campaignService.getAdvSelectCampaigns().subscribe({
+        next: (res: any) => {
+          if (res && res.data) {
+            this.csvData = res.data.rowData; // assuming backend returns row data					
+            this.campaignService.csvData = this.csvData;
+            this.currentView = 'table';
+          } else {
+            this.toastr.error('No campaign data found');
+          }
+        },
+        error: (err) => this.toastr.error('Error fetching campaigns:', err)
+      });
+    }
   }
 
   openFileListScreen() { this.currentView = 'dropdown'; }

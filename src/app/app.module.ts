@@ -12,6 +12,7 @@ import { FormsModule } from '@angular/forms';
 import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { PdfViewerComponent } from './ec-campaign/pdf-viewer/pdf-viewer.component';
+import { AdvComponent } from './adv/adv.component';
 
 
 @NgModule({
@@ -20,7 +21,7 @@ import { PdfViewerComponent } from './ec-campaign/pdf-viewer/pdf-viewer.componen
     HomeComponent,
     EcCampaignAppComponent,
     RowDetailsComponent,
-    PdfViewerComponent
+    PdfViewerComponent,
   ],
   imports: [
 		BrowserModule,

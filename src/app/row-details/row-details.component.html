@@ -1,6 +1,6 @@
 <div class="row-form-wrapper">
 
-<h2>Edit Data {{ rowData.firstName }}</h2>
+    <h2>Edit Data {{ rowData.firstName }}</h2>
     <form class="table-responsive" #editForm="ngForm" (ngSubmit)="saveChanges(editForm)">
         <table border="0" cellpadding="5" cellspacing="0">
             <tr>
@@ -36,56 +36,62 @@
             </tr>
 
             <tr>
-                <td>
-                    Email:
-                    <input type="email" [(ngModel)]="rowData.email" name="email" required email #email="ngModel"
-                        class="form-control" />
+                <ng-container *ngIf="party.current !== 'adv'">
+                    <td>
+                        Email:
+                        <input type="email" [(ngModel)]="rowData.email" name="email" required email #email="ngModel"
+                            class="form-control" />
 
-                    <div *ngIf="email.invalid && email.touched" class="text-danger">
-                        <div *ngIf="email.errors?.['required']">Email is required</div>
-                        <div *ngIf="email.errors?.['email']">Enter a valid email</div>
-                    </div>
-                </td>
+                        <div *ngIf="email.invalid && email.touched" class="text-danger">
+                            <div *ngIf="email.errors?.['required']">Email is required</div>
+                            <div *ngIf="email.errors?.['email']">Enter a valid email</div>
+                        </div>
+                    </td>
 
-                <td>
-                    City:
-                    <input type="text" [(ngModel)]="rowData.city" name="city" />
-                </td>
+                    <td>
+                        City:
+                        <input type="text" [(ngModel)]="rowData.city" name="city" />
+                    </td>
 
-                <td>
-                    State:
-                    <input type="text" [(ngModel)]="rowData.state" name="state" />
-                </td>
+                    <td>
+                        State:
+                        <input type="text" [(ngModel)]="rowData.state" name="state" />
+                    </td>
+                </ng-container>
             </tr>
 
             <tr>
-                <td>
-                    ZIP:
-                    <input type="text" [(ngModel)]="rowData.zip" autocomplete="off" name="zip" #zip="ngModel" required
-                        pattern="^[0-9]{6}$" placeholder="Enter 6-digit ZIP code" />
+                <ng-container *ngIf="party.current !== 'adv'">
+                    <td>
+                        ZIP:
+                        <input type="text" [(ngModel)]="rowData.zip" autocomplete="off" name="zip" #zip="ngModel"
+                            required pattern="^[0-9]{6}$" placeholder="Enter 6-digit ZIP code" />
 
-                    <div *ngIf="zip.invalid && zip.touched" class="text-danger">
-                        <div *ngIf="zip.errors?.['required']">ZIP code is required</div>
-                        <div *ngIf="zip.errors?.['pattern']">ZIP code must be 6 digits</div>
-                    </div>
-                </td>
+                        <div *ngIf="zip.invalid && zip.touched" class="text-danger">
+                            <div *ngIf="zip.errors?.['required']">ZIP code is required</div>
+                            <div *ngIf="zip.errors?.['pattern']">ZIP code must be 6 digits</div>
+                        </div>
+                    </td>
 
-                <td>
-                    Constituency Name:
-                    <input type="text" [(ngModel)]="rowData.ConstituencyName" name="ConstituencyName" />
-                </td>
+                    <td>
+                        Constituency Name:
+                        <input type="text" [(ngModel)]="rowData.ConstituencyName" name="ConstituencyName" />
+                    </td>
 
-                <td>
-                    Party Name:
-                    <input type="text" [(ngModel)]="rowData.PartyName" name="PartyName" />
-                </td>
+                    <td>
+                        Party Name:
+                        <input type="text" [(ngModel)]="rowData.PartyName" name="PartyName" />
+                    </td>
+                </ng-container>
             </tr>
 
             <tr>
-                <td>
-                    Text Link:
-                    <input type="text" [(ngModel)]="rowData.text1link" autocomplete="off" name="text1link" />
-                </td>
+                <ng-container *ngIf="party.current !== 'adv'">
+                    <td>
+                        Text Link:
+                        <input type="text" [(ngModel)]="rowData.text1link" autocomplete="off" name="text1link" />
+                    </td>
+                </ng-container>
 
                 <!-- =============== BJP FIELDS =============== -->
                 <ng-container *ngIf="party.current === 'bjp'">
@@ -256,6 +262,7 @@
                     Language:
                     <select [(ngModel)]="rowData.selectLanguage" name="selectLanguage" class="form-control">
                         <option value="E">English</option>
+                        <option value="T">Telugu</option>
                     </select>
                 </td>
             </tr>
