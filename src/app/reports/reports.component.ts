@@ -5,6 +5,7 @@ import { PartyService } from '../party.service';
 import { EcCampaignService } from '../services/ec-campaign.service';
 import { ToastrService } from 'ngx-toastr';
 import { environment } from '../environments/environment';
+import * as XLSX from 'xlsx';
 
 @Component({
     selector: 'app-reports',
@@ -96,5 +97,29 @@ export class ReportsComponent implements OnInit {
 
     login() {
         this.router.navigate([`/${this.party.current}`]); // Go back to main page to login as logic is there
+    }
+
+    downloadReport() {
+        if (!this.reportData || this.reportData.length === 0) {
+            this.toastr.warning('No data to download');
+            return;
+        }
+
+        const clientName = this.party.selectedClient?.name || 'Client';
+        const fileName = `${clientName}_Visit_Report_${this.startDate}_to_${this.endDate}.xlsx`;
+
+        // Map data to user-friendly headers
+        const exportData = this.reportData.map(row => ({
+            'Mobile Number': row.policyNumber,
+            'Visit Date': row.visitDate,
+            'Visit Count': row.visitCount
+        }));
+
+        const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(exportData);
+        const wb: XLSX.WorkBook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, ws, 'Report');
+
+        XLSX.writeFile(wb, fileName);
+        this.toastr.success('Report downloaded successfully!');
     }
 }

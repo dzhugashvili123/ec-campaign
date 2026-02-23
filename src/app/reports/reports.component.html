@@ -77,9 +77,14 @@
     <div class="results-container-compact" *ngIf="reportData && reportData.length > 0">
         <div class="results-header-compact">
             <h3>Report Details</h3>
-            <button class="btn-clear-compact" (click)="reportData = []">
-                <i class="bi bi-x-circle"></i> Clear
-            </button>
+            <div class="action-buttons-compact">
+                <button class="btn-download-compact" (click)="downloadReport()">
+                    <i class="bi bi-download"></i> Download
+                </button>
+                <button class="btn-clear-compact" (click)="reportData = []">
+                    <i class="bi bi-x-circle"></i> Clear
+                </button>
+            </div>
         </div>
         <div class="table-responsive compact-table-wrap">
             <table class="table custom-table-compact">

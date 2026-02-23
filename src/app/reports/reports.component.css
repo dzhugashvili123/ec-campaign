@@ -269,6 +269,33 @@ header {
     color: #636e72;
 }
 
+.action-buttons-compact {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.btn-download-compact {
+    background: #f8f9fa;
+    border: 1px solid #edeff2;
+    color: #2d3436;
+    font-size: 0.8rem;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 14px;
+    border-radius: 8px;
+    transition: all 0.2s;
+}
+
+.btn-download-compact:hover {
+    background: #fff;
+    border-color: #FFD200;
+    box-shadow: 0 4px 10px rgba(255, 210, 0, 0.1);
+}
+
 .btn-clear-compact {
     background: none;
     border: none;
