@@ -8,13 +8,13 @@
             [ngStyle]="{ 'background-color': party.theme.color, 'color': party.theme.text }">
             EC CAMPAIGN
         </button>
-        <ng-container *ngIf="party.current === 'adv'">
+        <ng-container *ngIf="isLoggedIn">
             <button class="btn btn-pill" (click)="viewReports();"
                 [ngStyle]="{ 'background-color': party.theme.color, 'color': party.theme.text }">
                 Reports
             </button>
         </ng-container>
-        <ng-container *ngIf="party.current !== 'adv'">
+        <ng-container *ngIf="party.theme.joinUrl">
             <!-- JOIN button -->
             <button class="btn btn-pill" (click)="openLink(party.theme.joinUrl)"
                 [ngStyle]="{ 'background-color': party.theme.color, 'color': party.theme.text }">

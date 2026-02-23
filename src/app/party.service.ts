@@ -5,7 +5,11 @@ import { Router } from '@angular/router';
 export class PartyService {
 
   private currentClient: any = null;
-  current: string = 'adv'; // Added for compatibility, initialized to 'adv' as per new logic
+  current: string = 'adv';
+
+  get selectedClient() {
+    return this.currentClient;
+  }
 
   defaultTheme = {
     color: '#F07965',

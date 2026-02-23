@@ -14,11 +14,6 @@ import { environment } from '../environments/environment';
 export class ReportsComponent implements OnInit {
     startDate: string = '';
     endDate: string = '';
-    selectedTemplate: string = '418968a1-4dd6-448e-8386-cf03bd5ae28d';
-    templates = [
-        { name: 'Select', value: '--Select--' },
-        { name: 'ADV', value: '418968a1-4dd6-448e-8386-cf03bd5ae28d' }
-    ];
     displayedColumns = [
         { key: 'policyNumber', label: 'Mobile Number' },
         { key: 'visitDate', label: 'Visit Date' },
@@ -38,20 +33,11 @@ export class ReportsComponent implements OnInit {
     ) { }
 
     ngOnInit() {
-        this.route.queryParams.subscribe(params => {
-            if (params['partyName']) {
-                // Assuming PartyService has a way to set current party or we just use it for local checks
-                // But PartyService seems to hold global state.
-                // If the user refreshed the page, PartyService might lose state if it doesn't persist.
-                // For now, let's assume PartyService is singleton and might be initialized or we set it.
-                // However, PartyService.current is a property.
-                // If simpler, just rely on what's there or default to 'adv'.
-                if (params['partyName'] !== this.party.current) {
-                    // We can try to update it if possible, strictly speaking we should probably not mutate it directly if it's read-only managed elsewhere, but based on usage in `ec-campaign` it seems it is read. 
-                    // Let's assume 'adv' for reports if not set.
-                }
-            }
-        });
+        // Initialize date range to current month
+        const now = new Date();
+        const firstDay = new Date(now.getFullYear(), now.getMonth(), 1);
+        this.startDate = firstDay.toISOString().split('T')[0];
+        this.endDate = now.toISOString().split('T')[0];
 
         this.isLoggedIn = this.campaignService.isLoggedIn();
     }
@@ -61,13 +47,21 @@ export class ReportsComponent implements OnInit {
     }
 
     onSubmit() {
-        if (!this.startDate || !this.endDate || !this.selectedTemplate || this.selectedTemplate === '--Select--') {
-            alert('Please fill in all fields');
+        if (!this.startDate || !this.endDate) {
+            this.toastr.warning('Please select a date range');
+            return;
+        }
+        debugger;
+        const client = this.party.selectedClient;
+        const templateId = client?.clientMeta?.videoTemplateId;
+
+        if (!templateId) {
+            this.toastr.error('No video template ID found for the current party');
             return;
         }
 
         this.isLoading = true;
-        const url = `${environment.videoApiUrl}/api/reports/reportByFields?startDate=${this.startDate}&endDate=${this.endDate}&templateId=${this.selectedTemplate}`;
+        const url = `${environment.videoApiUrl}/reports/reportByFields?startDate=${this.startDate}&endDate=${this.endDate}&templateId=${templateId}`;
 
         this.http.get<any[]>(url).subscribe({
             next: (data) => {

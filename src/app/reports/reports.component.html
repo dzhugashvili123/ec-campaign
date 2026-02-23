@@ -32,46 +32,86 @@
 
 </header>
 
-<div class="reports-container">
-    <h2>Reports</h2>
-    <div class="form-group">
-        <label for="startDate">Start Date:</label>
-        <input type="date" id="startDate" [(ngModel)]="startDate" name="startDate" class="form-control">
+<div class="reports-wrapper">
+    <!-- Compact Header & Summary Box -->
+    <div class="compact-header-bar mb-3">
+        <div class="title-area">
+            <h1 class="page-title-compact">
+                <i class="bi bi-graph-up-arrow"></i> Analytics
+            </h1>
+            <div class="stats-ribbon" *ngIf="reportData && reportData.length > 0">
+                <span class="stat-badge total">
+                    <i class="bi bi-people-fill"></i> {{ reportData.length }} Records
+                </span>
+                <span class="stat-separator"></span>
+                <span class="stat-badge date">
+                    <i class="bi bi-calendar3"></i> {{ startDate | date:'shortDate' }} - {{ endDate | date:'shortDate'
+                    }}
+                </span>
+            </div>
+        </div>
+
+        <!-- Inline Filters -->
+        <div class="compact-filters">
+            <div class="filter-group">
+                <div class="input-with-icon">
+                    <i class="bi bi-calendar-event"></i>
+                    <input type="date" [(ngModel)]="startDate" class="form-control-compact">
+                </div>
+                <span class="to-text">to</span>
+                <div class="input-with-icon">
+                    <i class="bi bi-calendar-check"></i>
+                    <input type="date" [(ngModel)]="endDate" class="form-control-compact">
+                </div>
+            </div>
+            <button (click)="onSubmit()" [disabled]="isLoading" class="btn-compact-submit"
+                [ngStyle]="{ 'background-color': party.theme.color, 'color': party.theme.text }">
+                <i class="bi bi-search" *ngIf="!isLoading"></i>
+                <span *ngIf="isLoading" class="spinner-border spinner-border-sm"></span>
+                {{ isLoading ? '' : 'View' }}
+            </button>
+        </div>
     </div>
 
-    <div class="form-group">
-        <label for="endDate">End Date:</label>
-        <input type="date" id="endDate" [(ngModel)]="endDate" name="endDate" class="form-control">
+    <!-- RESULTS SECTION -->
+    <div class="results-container-compact" *ngIf="reportData && reportData.length > 0">
+        <div class="results-header-compact">
+            <h3>Report Details</h3>
+            <button class="btn-clear-compact" (click)="reportData = []">
+                <i class="bi bi-x-circle"></i> Clear
+            </button>
+        </div>
+        <div class="table-responsive compact-table-wrap">
+            <table class="table custom-table-compact">
+                <thead>
+                    <tr>
+                        <th *ngFor="let col of displayedColumns">{{ col.label }}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let row of reportData">
+                        <td *ngFor="let col of displayedColumns">
+                            <ng-container [ngSwitch]="col.key">
+                                <span *ngSwitchCase="'policyNumber'" class="phone-link-compact">
+                                    <i class="bi bi-phone"></i> {{ row[col.key] }}
+                                </span>
+                                <span *ngSwitchCase="'visitDate'">
+                                    {{ row[col.key] | date:'mediumDate' }}
+                                </span>
+                                <span *ngSwitchDefault>
+                                    {{ row[col.key] }}
+                                </span>
+                            </ng-container>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 
-    <div class="form-group">
-        <label for="template">Template:</label>
-        <select id="template" [(ngModel)]="selectedTemplate" name="template" class="form-control">
-            <option *ngFor="let temp of templates" [value]="temp.value">{{ temp.name }}</option>
-        </select>
+    <!-- Empty State Compact -->
+    <div *ngIf="!isLoading && reportData.length === 0" class="no-data-compact">
+        <i class="bi bi-clipboard-data"></i>
+        <p>Enter dates above to see analytics</p>
     </div>
-
-    <button (click)="onSubmit()" [disabled]="isLoading" class="btn btn-primary">
-        {{ isLoading ? 'Loading...' : 'Submit' }}
-    </button>
-</div>
-
-<div class="table-container" *ngIf="reportData && reportData.length > 0">
-    <h3>Results</h3>
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th *ngFor="let col of displayedColumns">{{ col.label }}</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let row of reportData">
-                <td *ngFor="let col of displayedColumns">{{ row[col.key] }}</td>
-            </tr>
-        </tbody>
-    </table>
-</div>
-
-<div *ngIf="!isLoading && reportData.length === 0" class="no-data">
-    <p>No data to display. Please submit the form.</p>
 </div>
