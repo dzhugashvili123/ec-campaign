@@ -3,9 +3,11 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false, 
-  // apiUrl: 'https://quickcomsdemoapi.tecra.com'
-   apiUrl:"http://localhost:6200"
+  production: false,
+  //apiUrl: 'https://quickcomsdemoapi.tecra.com'
+  //apiUrl: "https://videos.laadshyd.com",
+  apiUrl: "http://localhost:6200",
+  videoApiUrl: "https://videos.laadshyd.com/vf/vapi"
 };
 
 /*

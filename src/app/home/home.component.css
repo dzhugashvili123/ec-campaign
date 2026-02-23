@@ -61,3 +61,15 @@ h1 {
   background: #ffd700;
   color: #3b3b00;
 }
+
+/* Default dynamic button */
+.party-btn:not(.bjp):not(.tdp) {
+  background: #3b82f6;
+  color: white;
+}
+
+.loading-spinner, .no-clients {
+  padding: 20px;
+  font-size: 18px;
+  color: #6b7280;
+}

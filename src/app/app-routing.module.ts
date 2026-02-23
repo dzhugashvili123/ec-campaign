@@ -5,9 +5,12 @@ import { HomeComponent } from './home/home.component';
 import { EcCampaignAppComponent } from './ec-campaign/ec-campaign.component';
 import { RowDetailsComponent } from './row-details/row-details.component';
 import { PdfViewerComponent } from './ec-campaign/pdf-viewer/pdf-viewer.component';
+import { ReportsComponent } from './reports/reports.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
+
+  { path: 'reports', component: ReportsComponent },
 
   { path: ':party', component: EcCampaignAppComponent },
 
@@ -22,4 +25,4 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }

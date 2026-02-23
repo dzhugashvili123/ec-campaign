@@ -1,0 +1,77 @@
+<header>
+    <img [src]="assetPath + '/logo.png'" class="logo">
+
+    <div class="btn-group">
+
+        <!-- EC CAMPAIGN -->
+        <button *ngIf="isLoggedIn" class="btn btn-pill" (click)="navigateToCampaign()"
+            [ngStyle]="{ 'background-color': party.theme.color, 'color': party.theme.text }">
+            EC CAMPAIGN
+        </button>
+
+        <button *ngIf="!isLoggedIn" class="login-btn" (click)="login()"
+            [ngStyle]="{ 'background-color': party.theme.color, 'color': party.theme.text}">
+            <span class="btn-icon">
+                <i class="bi bi-box-arrow-in-right"></i>
+            </span>
+            <span class="btn-text">
+                Login
+            </span>
+        </button>
+
+        <button *ngIf="isLoggedIn" class="logout-btn" (click)="logout()"
+            [ngStyle]="{'background-color': party.theme.color, 'color': party.theme.text}">
+            <span class="btn-icon">
+                <i class="bi bi-box-arrow-left"></i>
+            </span>
+            <span class="btn-text">
+                Logout
+            </span>
+        </button>
+    </div>
+
+</header>
+
+<div class="reports-container">
+    <h2>Reports</h2>
+    <div class="form-group">
+        <label for="startDate">Start Date:</label>
+        <input type="date" id="startDate" [(ngModel)]="startDate" name="startDate" class="form-control">
+    </div>
+
+    <div class="form-group">
+        <label for="endDate">End Date:</label>
+        <input type="date" id="endDate" [(ngModel)]="endDate" name="endDate" class="form-control">
+    </div>
+
+    <div class="form-group">
+        <label for="template">Template:</label>
+        <select id="template" [(ngModel)]="selectedTemplate" name="template" class="form-control">
+            <option *ngFor="let temp of templates" [value]="temp.value">{{ temp.name }}</option>
+        </select>
+    </div>
+
+    <button (click)="onSubmit()" [disabled]="isLoading" class="btn btn-primary">
+        {{ isLoading ? 'Loading...' : 'Submit' }}
+    </button>
+</div>
+
+<div class="table-container" *ngIf="reportData && reportData.length > 0">
+    <h3>Results</h3>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th *ngFor="let col of displayedColumns">{{ col.label }}</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let row of reportData">
+                <td *ngFor="let col of displayedColumns">{{ row[col.key] }}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div *ngIf="!isLoading && reportData.length === 0" class="no-data">
+    <p>No data to display. Please submit the form.</p>
+</div>

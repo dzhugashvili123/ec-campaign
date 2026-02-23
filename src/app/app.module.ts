@@ -12,6 +12,8 @@ import { FormsModule } from '@angular/forms';
 import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { PdfViewerComponent } from './ec-campaign/pdf-viewer/pdf-viewer.component';
+import { AdvComponent } from './adv/adv.component';
+import { ReportsComponent } from './reports/reports.component';
 
 
 @NgModule({
@@ -20,19 +22,20 @@ import { PdfViewerComponent } from './ec-campaign/pdf-viewer/pdf-viewer.componen
     HomeComponent,
     EcCampaignAppComponent,
     RowDetailsComponent,
-    PdfViewerComponent
+    PdfViewerComponent,
+    ReportsComponent,
   ],
   imports: [
-		BrowserModule,
-		AppRoutingModule,
-		HttpClientModule,
-		FormsModule,
-		BrowserAnimationsModule,
-		ToastrModule.forRoot({
-			timeOut: 5000,
-			positionClass: 'toast-bottom-right',
-			preventDuplicates: true,
-		}),
+    BrowserModule,
+    AppRoutingModule,
+    HttpClientModule,
+    FormsModule,
+    BrowserAnimationsModule,
+    ToastrModule.forRoot({
+      timeOut: 5000,
+      positionClass: 'toast-bottom-right',
+      preventDuplicates: true,
+    }),
   ],
   providers: [],
   bootstrap: [AppComponent]

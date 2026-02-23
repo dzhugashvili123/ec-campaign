@@ -1,269 +1,53 @@
 <div class="row-form-wrapper">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="m-0">Edit Record: {{ rowData.firstName || rowData.firstName || 'Details' }}</h2>
+        <button type="button" class="btn-cancel" (click)="cancel()">Back to List</button>
+    </div>
 
-<h2>Edit Data {{ rowData.firstName }}</h2>
-    <form class="table-responsive" #editForm="ngForm" (ngSubmit)="saveChanges(editForm)">
-        <table border="0" cellpadding="5" cellspacing="0">
-            <tr>
-                <td>
-                    First Name:
-                    <input type="text" [(ngModel)]="rowData.firstName" autocomplete="off" name="firstName" required
-                        #firstName="ngModel" />
+    <form #editForm="ngForm" (ngSubmit)="saveChanges(editForm)">
+        <div class="form-grid">
+            <div class="form-group" *ngFor="let field of schema">
+                <label>{{ formatKey(field.key) }}</label>
 
-                    <div *ngIf="firstName.invalid && firstName.touched" class="text-danger">
-                        First name is required
-                    </div>
-                </td>
+                <!-- BOOLEAN/RADIO FIELDS (Y/N) -->
+                <div class="radio-group" *ngIf="rowData[field.key] === 'Y' || rowData[field.key] === 'N'">
+                    <label class="radio-option">
+                        <input type="radio" [name]="field.key" [(ngModel)]="rowData[field.key]" value="Y"> Yes
+                    </label>
+                    <label class="radio-option">
+                        <input type="radio" [name]="field.key" [(ngModel)]="rowData[field.key]" value="N"> No
+                    </label>
+                </div>
 
-                <td>
-                    Last Name:
-                    <input type="text" [(ngModel)]="rowData.lastName" name="lastName" required #lastName="ngModel" />
+                <!-- DATE FIELDS -->
+                <input type="text"
+                    *ngIf="field.key.toLowerCase().includes('date') && rowData[field.key] !== 'Y' && rowData[field.key] !== 'N'"
+                    [(ngModel)]="rowData[field.key]" [name]="field.key" placeholder="YYYY-MM-DD">
 
-                    <div *ngIf="lastName.invalid && lastName.touched" class="text-danger">
-                        Last name is required
-                    </div>
-                </td>
+                <!-- NUMBER FIELDS -->
+                <input type="number"
+                    *ngIf="field.key.toLowerCase().includes('amount') || field.key.toLowerCase().includes('zip')"
+                    [(ngModel)]="rowData[field.key]" [name]="field.key" [placeholder]="'Enter ' + formatKey(field.key)">
 
-                <td>
-                    Mobile No:
-                    <input type="text" [(ngModel)]="rowData.MobileNo" autocomplete="off" name="MobileNo"
-                        #mobile="ngModel" required pattern="^[0-9]{10}$" placeholder="Enter 10-digit Mobile No" />
+                <!-- SELECT LANGUAGE -->
+                <select *ngIf="field.key === 'selectLanguage'" [(ngModel)]="rowData.selectLanguage"
+                    name="selectLanguage" class="form-control">
+                    <option value="E">English</option>
+                    <option value="T">Telugu</option>
+                </select>
 
-                    <div *ngIf="mobile.invalid && mobile.touched" class="text-danger">
-                        <div *ngIf="mobile.errors?.['required']">Mobile number is required</div>
-                        <div *ngIf="mobile.errors?.['pattern']">Mobile number must be 10 digits</div>
-                    </div>
-                </td>
-            </tr>
+                <!-- DEFAULT TEXT FIELDS -->
+                <input type="text"
+                    *ngIf="!field.key.toLowerCase().includes('date') && !field.key.toLowerCase().includes('amount') && !field.key.toLowerCase().includes('zip') && field.key !== 'selectLanguage' && rowData[field.key] !== 'Y' && rowData[field.key] !== 'N'"
+                    [(ngModel)]="rowData[field.key]" [name]="field.key" [placeholder]="'Enter ' + formatKey(field.key)">
+            </div>
+        </div>
 
-            <tr>
-                <td>
-                    Email:
-                    <input type="email" [(ngModel)]="rowData.email" name="email" required email #email="ngModel"
-                        class="form-control" />
-
-                    <div *ngIf="email.invalid && email.touched" class="text-danger">
-                        <div *ngIf="email.errors?.['required']">Email is required</div>
-                        <div *ngIf="email.errors?.['email']">Enter a valid email</div>
-                    </div>
-                </td>
-
-                <td>
-                    City:
-                    <input type="text" [(ngModel)]="rowData.city" name="city" />
-                </td>
-
-                <td>
-                    State:
-                    <input type="text" [(ngModel)]="rowData.state" name="state" />
-                </td>
-            </tr>
-
-            <tr>
-                <td>
-                    ZIP:
-                    <input type="text" [(ngModel)]="rowData.zip" autocomplete="off" name="zip" #zip="ngModel" required
-                        pattern="^[0-9]{6}$" placeholder="Enter 6-digit ZIP code" />
-
-                    <div *ngIf="zip.invalid && zip.touched" class="text-danger">
-                        <div *ngIf="zip.errors?.['required']">ZIP code is required</div>
-                        <div *ngIf="zip.errors?.['pattern']">ZIP code must be 6 digits</div>
-                    </div>
-                </td>
-
-                <td>
-                    Constituency Name:
-                    <input type="text" [(ngModel)]="rowData.ConstituencyName" name="ConstituencyName" />
-                </td>
-
-                <td>
-                    Party Name:
-                    <input type="text" [(ngModel)]="rowData.PartyName" name="PartyName" />
-                </td>
-            </tr>
-
-            <tr>
-                <td>
-                    Text Link:
-                    <input type="text" [(ngModel)]="rowData.text1link" autocomplete="off" name="text1link" />
-                </td>
-
-                <!-- =============== BJP FIELDS =============== -->
-                <ng-container *ngIf="party.current === 'bjp'">
-                    <td>
-                        Atal Pension Yojana:
-                        <div class="radio-group">
-                            <label class="radio-option">
-                                <input type="radio" name="APY" [(ngModel)]="rowData.AtalPensionYojana" value="Y" /> Yes
-                            </label>
-
-                            <label class="radio-option">
-                                <input type="radio" name="APY" [(ngModel)]="rowData.AtalPensionYojana" value="N" /> No
-                            </label>
-                        </div>
-                    </td>
-
-                    <td>
-                        APY Amount:
-                        <input type="number" [(ngModel)]="rowData.APY_Amount" name="APY_Amount" />
-                    </td>
-                </ng-container>
-
-                <!-- =============== TDP FIELDS =============== -->
-                <ng-container *ngIf="party.current === 'tdp'">
-                    <td>
-                        Thalliki Vandhanam:
-                        <div class="radio-group">
-                            <label class="radio-option">
-                                <input type="radio" name="TV" [(ngModel)]="rowData.ThallikiVandhanam" value="Y" /> Yes
-                            </label>
-
-                            <label class="radio-option">
-                                <input type="radio" name="TV" [(ngModel)]="rowData.ThallikiVandhanam" value="N" /> No
-                            </label>
-                        </div>
-                    </td>
-
-                    <td>
-                        Thalliki Vandhanam Amount:
-                        <input type="number" [(ngModel)]="rowData.ThallikiVandhanam_Amount"
-                            name="ThallikiVandhanam_Amount" />
-                    </td>
-                </ng-container>
-            </tr>
-
-            <!-- === BJP EXTRA FIELDS === -->
-            <ng-container *ngIf="party.current === 'bjp'">
-                <tr>
-                    <td>
-                        APY Date:
-                        <input type="text" [(ngModel)]="rowData.APY_Date" name="APY_Date" />
-                    </td>
-
-                    <td>
-                        PMKSN:
-                        <div class="radio-group">
-                            <label class="radio-option">
-                                <input type="radio" name="PMKSN" [(ngModel)]="rowData.PMKSN" value="Y" /> Yes
-                            </label>
-
-                            <label class="radio-option">
-                                <input type="radio" name="PMKSN" [(ngModel)]="rowData.PMKSN" value="N" /> No
-                            </label>
-                        </div>
-                    </td>
-
-                    <td>
-                        PMKSN Amount:
-                        <input type="number" [(ngModel)]="rowData.PMKSN_Amount" name="PMKSN_Amount" />
-                    </td>
-                </tr>
-
-                <tr>
-                    <td>
-                        PMKSN Date:
-                        <input type="text" [(ngModel)]="rowData.PMKSN_Date" name="PMKSN_Date" />
-                    </td>
-
-                    <td>
-                        PMGAY:
-                        <div class="radio-group">
-                            <label class="radio-option">
-                                <input type="radio" name="PMGAY" [(ngModel)]="rowData.PMGAY" value="Y" /> Yes
-                            </label>
-
-                            <label class="radio-option">
-                                <input type="radio" name="PMGAY" [(ngModel)]="rowData.PMGAY" value="N" /> No
-                            </label>
-                        </div>
-                    </td>
-
-                    <td>
-                        PMGAY Amount:
-                        <input type="number" [(ngModel)]="rowData.PMGAY_Amount" name="PMGAY_Amount" />
-                    </td>
-                </tr>
-
-                <tr>
-                    <td>
-                        PMGAY Date:
-                        <input type="text" [(ngModel)]="rowData.PMGAY_Date" name="PMGAY_Date" />
-                    </td>
-                </tr>
-            </ng-container>
-
-            <!-- === TDP EXTRA FIELDS === -->
-            <ng-container *ngIf="party.current === 'tdp'">
-                <tr>
-                    <td>
-                        Thalliki Vandhanam Date:
-                        <input type="text" [(ngModel)]="rowData.ThallikiVandhanam_Date" name="ThallikiVandhanam_Date" />
-                    </td>
-
-                    <td>
-                        Anna Dhaatha:
-                        <div class="radio-group">
-                            <label class="radio-option">
-                                <input type="radio" name="Anna" [(ngModel)]="rowData.AnnaDhaatha" value="Y" /> Yes
-                            </label>
-
-                            <label class="radio-option">
-                                <input type="radio" name="Anna" [(ngModel)]="rowData.AnnaDhaatha" value="N" /> No
-                            </label>
-                        </div>
-                    </td>
-
-                    <td>
-                        Anna Dhaatha Amount:
-                        <input type="number" [(ngModel)]="rowData.AnnaDhaatha_Amount" name="AnnaDhaatha_Amount" />
-                    </td>
-                </tr>
-
-                <tr>
-                    <td>
-                        Anna Dhaatha Date:
-                        <input type="text" [(ngModel)]="rowData.AnnaDhaatha_Date" name="AnnaDhaatha_Date" />
-                    </td>
-
-                    <td>
-                        Maha Shakti:
-                        <div class="radio-group">
-                            <label class="radio-option">
-                                <input type="radio" name="Maha" [(ngModel)]="rowData.MahaShakti" value="Y" /> Yes
-                            </label>
-
-                            <label class="radio-option">
-                                <input type="radio" name="Maha" [(ngModel)]="rowData.MahaShakti" value="N" /> No
-                            </label>
-                        </div>
-                    </td>
-
-                    <td>
-                        Maha Shakti Amount:
-                        <input type="number" [(ngModel)]="rowData.MahaShakti_Amount" name="MahaShakti_Amount" />
-                    </td>
-                </tr>
-
-                <tr>
-                    <td>
-                        Maha Shakti Date:
-                        <input type="text" [(ngModel)]="rowData.MahaShakti_Date" name="MahaShakti_Date" />
-                    </td>
-                </tr>
-            </ng-container>
-
-            <tr>
-                <td>
-                    Language:
-                    <select [(ngModel)]="rowData.selectLanguage" name="selectLanguage" class="form-control">
-                        <option value="E">English</option>
-                    </select>
-                </td>
-            </tr>
-        </table>
-
-        <div class="button-group">
-            <button type="submit" class="btn-submit" [disabled]="editForm.invalid">Save</button>
-            <button type="button" class="btn-cancel" (click)="cancel()">Cancel</button>
+        <div class="form-actions mt-4">
+            <button type="submit" class="btn-submit" [disabled]="editForm.invalid || isSaving"
+                [ngStyle]="{ 'background-color': party.theme.color, 'color': party.theme.text }">
+                {{ isSaving ? 'Saving...' : 'Save Changes' }}
+            </button>
         </div>
     </form>
 </div>

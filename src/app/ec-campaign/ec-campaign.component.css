@@ -62,6 +62,17 @@ header {
 	border-radius: 30px !important;
 }
 
+.btn:disabled {
+	opacity: 0.6;
+	cursor: not-allowed !important;
+	transform: none !important;
+}
+
+.btn:disabled:hover {
+	background-color: inherit !important;
+	transform: none !important;
+}
+
 /* ================= LOGIN / LOGOUT ================= */
 
 .login-btn,
@@ -167,6 +178,16 @@ header {
 	font-family: "Segoe UI", sans-serif;
 }
 
+.table-view-container {
+	max-width: 90% !important;
+	width: auto !important;
+}
+
+.table-scroll-container {
+	max-height: 70vh;
+	overflow-y: auto;
+}
+
 /* ================= FORMS ================= */
 
 .form-control,
@@ -206,9 +227,51 @@ table th {
 
 .button-group {
 	display: flex;
-	justify-content: space-between;
+	justify-content: flex-end;
 	gap: 10px;
 	margin-top: 15px;
+}
+
+.campaign-select-row {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+}
+
+.btn-download-icon {
+	background: #f8f9fa;
+	border: 1px solid #dee2e6;
+	color: #0d6efd;
+	width: 42px;
+	height: 42px;
+	border-radius: 8px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+	transition: all 0.2s ease;
+	font-size: 1.2rem;
+	flex-shrink: 0;
+}
+
+.btn-download-icon:hover:not(:disabled) {
+	background: #e9ecef;
+	border-color: #ced4da;
+	transform: scale(1.05);
+}
+
+.btn-download-icon:disabled {
+	opacity: 0.5;
+	cursor: not-allowed;
+	color: #6c757d;
+}
+
+.mb-3 {
+	margin-bottom: 1rem;
+}
+
+.mt-2 {
+	margin-top: 0.5rem;
 }
 
 /* Cancel button */
@@ -239,6 +302,71 @@ table th {
 
 .btn-submit:hover {
 	background-color: #218838;
+}
+
+.btn-submit:disabled {
+	opacity: 0.6;
+	cursor: not-allowed !important;
+	transform: none !important;
+}
+
+.btn-submit:disabled:hover {
+	background-color: #28a745 !important;
+	transform: none !important;
+}
+
+/* ================= MODAL ================= */
+.modal-backdrop {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100vw;
+	height: 100vh;
+	background: rgba(0, 0, 0, 0.5);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	z-index: 1000;
+}
+
+.modal-card {
+	background: #fff;
+	padding: 2rem;
+	border-radius: 12px;
+	width: 100%;
+	max-width: 400px;
+	box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+}
+
+.modal-card h3 {
+	margin-top: 0;
+	margin-bottom: 1.5rem;
+	font-weight: 700;
+}
+
+.d-flex {
+	display: flex;
+}
+
+.justify-content-between {
+	justify-content: space-between;
+}
+
+.align-items-center {
+	align-items: center;
+}
+
+.m-0 {
+	margin: 0;
+}
+
+.mb-2 {
+	margin-bottom: 0.5rem;
+}
+
+.btn-sm {
+	padding: 0.4rem 0.8rem;
+	font-size: 0.85rem;
 }
 
 /* ================= RESPONSIVE ================= */

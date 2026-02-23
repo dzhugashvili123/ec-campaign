@@ -11,16 +11,42 @@ export class EcCampaignService {
 	csvData: any[] = [];
 	selectedData: any[] = [];
 	selectedList: string = '';
+	selectedCampaign: string = '';
+	currentCampaignSchema: any[] = [];
 	lastView: string | null = null;
-	constructor(private http: HttpClient) { }
+	private selectedClientId: string | null = null;
+
+	constructor(private http: HttpClient) {
+		const storedId = sessionStorage.getItem('selectedClientId');
+		if (storedId) {
+			this.selectedClientId = storedId;
+		}
+	}
+
+	setSelectedClientId(id: string) {
+		this.selectedClientId = id;
+		sessionStorage.setItem('selectedClientId', id);
+	}
+
+	getSelectedClientId(): string | null {
+		return this.selectedClientId || sessionStorage.getItem('selectedClientId');
+	}
 
 	processCampaign(payload: { fileName: string; campaignName: string }): Observable<any> {
 		return this.http.post<any>(`${this.baseUrl}/process-campaign`, payload);
 	}
 
-	uploadFile(file: File): Observable<any> {
+	downloadSample(campaignName: string): Observable<Blob> {
+		return this.http.get(`${this.baseUrl}/download-sample?campaignName=${campaignName}`, {
+			responseType: 'blob'
+		});
+	}
+
+	uploadFile(file: File, campaignName?: string, clientId?: string): Observable<any> {
 		const formData = new FormData();
 		formData.append('file', file, file.name);
+		if (campaignName) formData.append('campaignName', campaignName);
+		if (clientId) formData.append('clientId', clientId);
 		return this.http.post<any>(`${this.baseUrl}/file-upload`, formData);
 	}
 
@@ -43,6 +69,42 @@ export class EcCampaignService {
 
 	getTdpSelectCampaigns(): Observable<any> {
 		return this.http.get(this.baseUrl + '/get-select-campaign-users-tdp');
+	}
+
+	getAdvSelectCampaigns(): Observable<any> {
+		return this.http.get(this.baseUrl + '/get-select-campaign-users-adv');
+	}
+
+	getClients(): Observable<any> {
+		return this.http.get(this.baseUrl + '/clients/active');
+	}
+
+	getSelectCampaigns(party: string, campaignName: string): Observable<any> {
+		return this.http.get(`${this.baseUrl}/get-select-campaign-users-${party.toLowerCase()}?campaignName=${campaignName}`);
+	}
+
+	getCampaignQueueRecords(campaignName: string, clientId: string): Observable<any> {
+		return this.http.get(`${this.baseUrl}/get-campaign-queue-records?campaignName=${campaignName}&clientId=${clientId}`);
+	}
+
+	updateUser(party: string, payload: any) {
+		return this.http.post(
+			`${this.baseUrl}/update-campaign-queue-record`,
+			payload
+		);
+	}
+
+	getCampaignsByClientId(clientId: string): Observable<any> {
+		return this.http.get(`${this.baseUrl}/clients/${clientId}/campaigns`);
+	}
+
+	getCampaignsBySelectedClient(): Observable<any> {
+		const clientId = this.getSelectedClientId();
+		if (!clientId) {
+			console.error('No client selected');
+			throw new Error('No client selected');
+		}
+		return this.getCampaignsByClientId(clientId);
 	}
 
 	// updateCampaignUser(payload: any) {

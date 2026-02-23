@@ -1,11 +1,22 @@
 <div class="home-container">
   <div class="card">
     <h1>EC Campaign</h1>
-    <p class="subtitle">Select your party</p>
+    <p class="subtitle">Select your Client</p>
 
-    <div class="button-row">
-      <button class="party-btn bjp" routerLink="/bjp">BJP</button>
-      <button class="party-btn tdp" routerLink="/tdp">TDP</button>
+    <div *ngIf="isLoading" class="loading-spinner">
+      Loading clients...
+    </div>
+
+    <div *ngIf="!isLoading && clients.length > 0" class="button-row">
+      <button *ngFor="let client of clients" class="party-btn"
+        [ngStyle]="{ 'background-color': client.clientMeta?.color, 'color': client.clientMeta?.text }"
+        (click)="selectClient(client)">
+        {{ client.name }}
+      </button>
+    </div>
+
+    <div *ngIf="!isLoading && clients.length === 0" class="no-clients">
+      No clients available.
     </div>
   </div>
 </div>
