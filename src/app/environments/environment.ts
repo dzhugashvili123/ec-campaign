@@ -5,8 +5,8 @@
 export const environment = {
   production: false,
   //apiUrl: 'https://quickcomsdemoapi.tecra.com'
-  //apiUrl: "https://videos.laadshyd.com",
-  apiUrl: "http://localhost:6200",
+  apiUrl: "https://videos.laadshyd.com",
+  //apiUrl: "http://localhost:6200",
   videoApiUrl: "https://videos.laadshyd.com/vf/vapi/api"
 };
 
