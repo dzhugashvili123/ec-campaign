@@ -251,7 +251,34 @@
             <div style="max-height: 400px; overflow-y: auto; padding-right: 5px;">
                 <div class="mb-3" *ngFor="let field of currentCampaignSchema">
                     <label class="form-label">{{ formatKey(field.key) }}</label>
-                    <input type="text" [(ngModel)]="newRecord[field.key]" class="form-control" [name]="field.key"
+
+                    <!-- DATE -->
+                    <input *ngIf="field.fieldType === 'date'" type="text" [(ngModel)]="newRecord[field.key]"
+                        class="form-control" [name]="field.key"
+                        [placeholder]="'Enter ' + formatKey(field.key) + (field.format ? ' (' + field.format + ')' : '')">
+
+                    <!-- ZIP -->
+                    <input *ngIf="field.fieldType === 'zip'" type="text" pattern="[0-9]*" inputmode="numeric"
+                        [(ngModel)]="newRecord[field.key]" class="form-control" [name]="field.key"
+                        [placeholder]="'Enter ' + formatKey(field.key)">
+
+                    <!-- AMOUNT -->
+                    <input *ngIf="field.fieldType === 'amount'" type="text" [(ngModel)]="newRecord[field.key]"
+                        class="form-control" [name]="field.key"
+                        [placeholder]="'Enter ' + formatKey(field.key) + (field.format ? ' (e.g. ' + field.format + ')' : '')">
+
+                    <!-- DROPDOWN -->
+                    <select *ngIf="field.fieldType === 'dropdown'" [(ngModel)]="newRecord[field.key]"
+                        class="form-select" [name]="field.key">
+                        <option value="" disabled>Select {{ formatKey(field.key) }}</option>
+                        <option *ngFor="let opt of field.allowedValues" [value]="opt.value">
+                            {{ opt.label }}
+                        </option>
+                    </select>
+
+                    <!-- TEXT (Default) -->
+                    <input *ngIf="field.fieldType === 'text' || !field.fieldType" type="text"
+                        [(ngModel)]="newRecord[field.key]" class="form-control" [name]="field.key"
                         [placeholder]="'Enter ' + formatKey(field.key)">
                 </div>
             </div>

@@ -56,12 +56,12 @@
             <div class="filter-group">
                 <div class="input-with-icon">
                     <i class="bi bi-calendar-event"></i>
-                    <input type="date" [(ngModel)]="startDate" class="form-control-compact">
+                    <input type="text" [(ngModel)]="startDate" class="form-control-compact" placeholder="DD/MM/YYYY">
                 </div>
                 <span class="to-text">to</span>
                 <div class="input-with-icon">
                     <i class="bi bi-calendar-check"></i>
-                    <input type="date" [(ngModel)]="endDate" class="form-control-compact">
+                    <input type="text" [(ngModel)]="endDate" class="form-control-compact" placeholder="DD/MM/YYYY">
                 </div>
             </div>
             <button (click)="onSubmit()" [disabled]="isLoading" class="btn-compact-submit"

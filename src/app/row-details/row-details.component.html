@@ -9,36 +9,31 @@
             <div class="form-group" *ngFor="let field of schema">
                 <label>{{ formatKey(field.key) }}</label>
 
-                <!-- BOOLEAN/RADIO FIELDS (Y/N) -->
-                <div class="radio-group" *ngIf="rowData[field.key] === 'Y' || rowData[field.key] === 'N'">
-                    <label class="radio-option">
-                        <input type="radio" [name]="field.key" [(ngModel)]="rowData[field.key]" value="Y"> Yes
-                    </label>
-                    <label class="radio-option">
-                        <input type="radio" [name]="field.key" [(ngModel)]="rowData[field.key]" value="N"> No
-                    </label>
-                </div>
+                <!-- DATE -->
+                <input *ngIf="field.fieldType === 'date'" type="text" [(ngModel)]="rowData[field.key]"
+                    [name]="field.key"
+                    [placeholder]="'Enter ' + formatKey(field.key) + (field.format ? ' (' + field.format + ')' : ' (DD/MM/YYYY)')">
 
-                <!-- DATE FIELDS -->
-                <input type="text"
-                    *ngIf="field.key.toLowerCase().includes('date') && rowData[field.key] !== 'Y' && rowData[field.key] !== 'N'"
-                    [(ngModel)]="rowData[field.key]" [name]="field.key" placeholder="YYYY-MM-DD">
-
-                <!-- NUMBER FIELDS -->
-                <input type="number"
-                    *ngIf="field.key.toLowerCase().includes('amount') || field.key.toLowerCase().includes('zip')"
+                <!-- ZIP -->
+                <input *ngIf="field.fieldType === 'zip'" type="text" pattern="[0-9]*" inputmode="numeric"
                     [(ngModel)]="rowData[field.key]" [name]="field.key" [placeholder]="'Enter ' + formatKey(field.key)">
 
-                <!-- SELECT LANGUAGE -->
-                <select *ngIf="field.key === 'selectLanguage'" [(ngModel)]="rowData.selectLanguage"
-                    name="selectLanguage" class="form-control">
-                    <option value="E">English</option>
-                    <option value="T">Telugu</option>
+                <!-- AMOUNT -->
+                <input *ngIf="field.fieldType === 'amount'" type="text" [(ngModel)]="rowData[field.key]"
+                    [name]="field.key"
+                    [placeholder]="'Enter ' + formatKey(field.key) + (field.format ? ' (e.g. ' + field.format + ')' : '')">
+
+                <!-- DROPDOWN -->
+                <select *ngIf="field.fieldType === 'dropdown'" [(ngModel)]="rowData[field.key]" [name]="field.key"
+                    class="form-control">
+                    <option value="" disabled>Select {{ formatKey(field.key) }}</option>
+                    <option *ngFor="let opt of field.allowedValues" [value]="opt.value">
+                        {{ opt.label }}
+                    </option>
                 </select>
 
-                <!-- DEFAULT TEXT FIELDS -->
-                <input type="text"
-                    *ngIf="!field.key.toLowerCase().includes('date') && !field.key.toLowerCase().includes('amount') && !field.key.toLowerCase().includes('zip') && field.key !== 'selectLanguage' && rowData[field.key] !== 'Y' && rowData[field.key] !== 'N'"
+                <!-- TEXT (Default) -->
+                <input *ngIf="field.fieldType === 'text' || !field.fieldType" type="text"
                     [(ngModel)]="rowData[field.key]" [name]="field.key" [placeholder]="'Enter ' + formatKey(field.key)">
             </div>
         </div>
