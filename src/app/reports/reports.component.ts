@@ -77,6 +77,30 @@ export class ReportsComponent implements OnInit {
         });
     }
 
+    openDatePicker(input: HTMLInputElement) {
+        const pickerInput = input as HTMLInputElement & { showPicker?: () => void };
+        if (pickerInput.showPicker) {
+            pickerInput.showPicker();
+            return;
+        }
+
+        input.focus();
+        input.click();
+    }
+
+    formatDateForDisplay(dateValue: string): string {
+        if (!dateValue) {
+            return '';
+        }
+
+        const [year, month, day] = dateValue.split('-');
+        if (!year || !month || !day) {
+            return dateValue;
+        }
+
+        return `${day}/${month}/${year}`;
+    }
+
     // Helper to get object keys for dynamic table headers
     getKeys(obj: any): string[] {
         return obj ? Object.keys(obj) : [];

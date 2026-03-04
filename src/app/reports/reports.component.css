@@ -201,7 +201,8 @@ header {
     left: 10px;
     color: #a4b0be;
     font-size: 0.9rem;
-    pointer-events: none;
+    pointer-events: auto;
+    cursor: pointer;
 }
 
 .form-control-compact {
@@ -217,6 +218,14 @@ header {
 
 .form-control-compact:focus {
     outline: none;
+}
+
+.native-date-input {
+    position: absolute;
+    opacity: 0;
+    width: 1px;
+    height: 1px;
+    pointer-events: none;
 }
 
 .to-text {
