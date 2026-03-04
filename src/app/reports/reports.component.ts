@@ -52,7 +52,6 @@ export class ReportsComponent implements OnInit {
             this.toastr.warning('Please select a date range');
             return;
         }
-        debugger;
         const client = this.party.selectedClient;
         const templateId = client?.clientMeta?.videoTemplateId;
 
