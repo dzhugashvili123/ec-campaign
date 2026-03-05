@@ -369,6 +369,31 @@ table th {
 	font-size: 0.85rem;
 }
 
+/* ================= SCHEDULING ================= */
+.scheduling-container {
+	background: #f8f9fa;
+	border: 1px dashed #ccc;
+	border-radius: 8px;
+	padding: 12px;
+	width: 100%;
+}
+
+.schedule-input-group {
+	padding-left: 28px;
+	width: 100%;
+}
+
+.schedule-input {
+	width: 100% !important;
+	cursor: pointer;
+	background-color: #fff;
+}
+
+.schedule-input:focus {
+	border-color: #FFD200;
+	box-shadow: 0 0 0 0.2rem rgba(255, 210, 0, 0.25);
+}
+
 /* ================= RESPONSIVE ================= */
 
 /* Mobile */

@@ -46,6 +46,8 @@ export class EcCampaignAppComponent implements OnInit {
   selectionError: string = '';
   lastView: string | null = null;
   currentCampaignSchema: any[] = [];
+  scheduleTime: string = '';
+  isScheduleOpen: boolean = false;
 
   showAddModal = false;
   newRecord: any = { firstName: '', MobileNo: '', email: '' };
@@ -290,7 +292,8 @@ export class EcCampaignAppComponent implements OnInit {
     const payload = {
       fileName: this.uploadedFileName,
       campaignName: this.selectedCampaign,
-      clientId: clientId
+      clientId: clientId,
+      scheduleTime: this.isScheduleOpen ? this.scheduleTime : null
     };
 
     this.campaignService.processCampaign(payload).subscribe({
@@ -510,7 +513,8 @@ export class EcCampaignAppComponent implements OnInit {
     const payload = {
       selectedRows: uniqueRows,
       selectedCampaign: this.selectedCampaign,
-      clientId: this.campaignService.getSelectedClientId()
+      clientId: this.campaignService.getSelectedClientId(),
+      scheduleTime: this.isScheduleOpen ? this.scheduleTime : null
     };
     this.campaignService.submitRows(payload).subscribe({
       next: response => {
