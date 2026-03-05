@@ -53,15 +53,16 @@ export class ReportsComponent implements OnInit {
             return;
         }
         const client = this.party.selectedClient;
-        const templateId = client?.clientMeta?.videoTemplateId;
-
-        if (!templateId) {
-            this.toastr.error('No video template ID found for the current party');
+        // const templateId = client?.clientMeta?.videoTemplateId;
+        debugger;
+        if (!client.name) {
+            this.toastr.error('No client name found for the current party');
             return;
         }
 
         this.isLoading = true;
-        const url = `${environment.videoApiUrl}/reports/reportByFields?startDate=${this.startDate}&endDate=${this.endDate}&templateId=${templateId}`;
+        // const url = `${environment.videoApiUrl}/reports/reportByFields?startDate=${this.startDate}&endDate=${this.endDate}&templateId=${templateId}`;
+        const url = `${environment.videoApiUrl}/reports/reportByFields?startDate=${this.startDate}&endDate=${this.endDate}&clientName=${client.name}`;
 
         this.http.get<any[]>(url).subscribe({
             next: (data) => {
